@@ -6,10 +6,13 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from
 import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, serverTimestamp, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_FIREBASE_WEB_API_KEY",
-  authDomain: "PASTE_PROJECT.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyBFGwp58RAA07iqczEAwuOtChE3eAFDby8",
+  authDomain: "liworld.firebaseapp.com",
+  projectId: "liworld",
+  storageBucket: "liworld.firebasestorage.app",
+  messagingSenderId: "339709912399",
+  appId: "1:339709912399:web:24ae527e78ce00bd69113a",
+  measurementId: "G-G37PF9GGEW"
 };
 const loginPanel=document.getElementById("loginPanel"), dashboard=document.getElementById("dashboard");
 const errorBox=document.getElementById("loginError"), ticketList=document.getElementById("ticketList");
