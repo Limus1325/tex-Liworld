@@ -27,9 +27,26 @@ document.getElementById("loginForm").addEventListener("submit",async e=>{
 });
 onAuthStateChanged(auth||{onAuthStateChanged:()=>{}},async user=>{
  if(!user){showLogin();return;}
- const token=await user.getIdTokenResult(true);
- if(token.claims.supportStaff!==true){await signOut(auth);errorBox.textContent="У этой учётной записи нет доступа сотрудника.";showLogin();return;}
- loginPanel.classList.add("hidden");dashboard.classList.remove("hidden");document.getElementById("who").textContent=user.email||"Сотрудник";
+
+ try {
+   const staffDoc = await getDoc(doc(db, "staff", user.uid));
+
+   if (!staffDoc.exists()) {
+     await signOut(auth);
+     errorBox.textContent = "У этой учётной записи нет доступа сотрудника.";
+     showLogin();
+     return;
+   }
+ } catch (err) {
+   console.error("Ошибка проверки сотрудника:", err);
+   errorBox.textContent = "Не удалось проверить доступ. Проверь правила Firestore.";
+   await signOut(auth);
+   showLogin();
+   return;
+ }
+
+ loginPanel.classList.add("hidden");
+ dashboard.classList.remove("hidden");document.getElementById("who").textContent=user.email||"Сотрудник";
  if(unsubscribe)unsubscribe();
  unsubscribe=onSnapshot(query(collection(db,"tickets"),orderBy("createdAt","desc")),snap=>{
   allTickets=snap.docs.map(d=>({id:d.id,...d.data()}));renderTickets();
